@@ -27,6 +27,7 @@ response = to_categorical(train['class'].values, 2)
 # Get the number of features
 n_cols = predictors.shape[1]
 
+'''
 # Build the model
 model = Sequential()
 model.add(Dense(10, activation='sigmoid', input_shape=(n_cols,)))
@@ -39,3 +40,20 @@ early_stopping_monitor = EarlyStopping(patience=3)
 model.compile(optimizer='adam', loss='categorical_hinge', metrics=['accuracy'])
 model.fit(predictors, response, validation_split=0.2, verbose=1, epochs=50, callbacks=[early_stopping_monitor])
 model.save('model.h5')
+'''
+
+# Load the model
+my_model = load_model('model.h5')
+
+# Get the predictions
+predictions = np.array(my_model.predict(test), dtype='int')[:, 1]
+
+# Display model summary
+my_model.summary()
+
+# Set the data into the suitable format
+test = test.drop(['B', 'G', 'R'], axis=1)
+test['class'] = (predictions + 1)
+
+# Save the data to csv format
+test.to_csv('output.csv', sep=',')
