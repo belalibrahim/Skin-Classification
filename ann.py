@@ -56,4 +56,4 @@ test = test.drop(['B', 'G', 'R'], axis=1)
 test['class'] = (predictions + 1)
 
 # Save the data to csv format
-test.to_csv('output.csv', sep=',')
+test.to_csv('ann_output.csv', sep=',')
